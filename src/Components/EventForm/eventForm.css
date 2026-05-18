@@ -1,0 +1,23 @@
+.event-form {
+	margin-top: 1.5rem;
+	padding: 1rem;
+	border: 1px solid #ddd;
+	background: #fafafa;
+}
+
+.event-form h2 {
+	margin-top: 0;
+}
+
+.event-form input {
+	display: block;
+	width: 100%;
+	margin-bottom: 0.75rem;
+	padding: 0.7rem;
+	font-size: 1rem;
+}
+
+.event-form button {
+	padding: 0.7rem 1rem;
+	cursor: pointer;
+}
