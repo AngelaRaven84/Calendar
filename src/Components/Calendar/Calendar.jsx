@@ -3,19 +3,19 @@ import CalendarDay from '../CalendarDay/CalendarDay';
 import EventForm from '../EventForm/EventForm';
 import {
 	getDaysInMonth,
-	getFirstDayInMonth,
-	getMontName,
+	getFirstDayOfMonth,
+	getMonthName,
 	formatDateKey,
 } from '../../Utils/CalendarUtils';
 import './calendar.css';
 
 function Calendar() {
-	const [currentDate, setCurrentDate] = usestate(new Date());
+	const [currentDate, setCurrentDate] = useState(new Date());
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [events, setEvents] = useState([]);
 
 	const today = new Date();
-	const year = currentDate.gettFullYear();
+	const year = currentDate.getFullYear();
 	const month = currentDate.getMonth();
 	const daysInMonth = getDaysInMonth(year, month);
 	const firstDayOfMonth = getFirstDayOfMonth(year, month);
@@ -62,11 +62,12 @@ function Calendar() {
 			</div>
 
 			<div className='calendar__grid'>
-				{emptyDays.map((_, index) => {
+				{emptyDays.map((_, index) => (
 					<div
 						key={`empty-${index}`}
-						className='calendar-day calendar-day--empty'></div>;
-				})}
+						className='calendar-day calendar-day--empty'
+					/>
+				))}
 
 				{days.map((day) => {
 					const date = new Date(year, month, day);
@@ -77,8 +78,11 @@ function Calendar() {
 						today.getMonth() === month &&
 						today.getDate() === day;
 
-					const isSelected =
-						selectedDate && formatDateKey(selectedDate) === dateKey;
+					const isSelected = selectedDate
+						? formatDateKey(selectedDate) === dateKey
+						: false;
+
+					const dayEvents = events.filter((event) => event.date === dateKey);
 
 					return (
 						<CalendarDay

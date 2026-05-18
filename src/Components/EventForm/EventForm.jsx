@@ -26,7 +26,7 @@ function EventForm({ selectedDate, onAddEvent }) {
 		<form className='event-form' onSubmit={handleSubmit}>
 			<h2>
 				Event för
-				{selectedDate.toLocalDateString('sv-SE')}
+				{selectedDate.toLocaleDateString('sv-SE')}
 			</h2>
 			<input
 				type='text'
