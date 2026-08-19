@@ -38,6 +38,14 @@ function Calendar() {
 		setEditingEvent(null);
 	};
 
+	const handleDeleteEvent = (eventId) => {
+		deleteEvent(eventId);
+
+		if (editingEvent?.id === eventId) {
+			setEditingEvent(null);
+		}
+	};
+
 	return (
 		<section className='calendar'>
 			<div className='calendar__header'>
@@ -104,7 +112,7 @@ function Calendar() {
 								setSelectedDate(date);
 								setEditingEvent(event);
 							}}
-							onDeleteEvent={deleteEvent}
+							onDeleteEvent={handleDeleteEvent}
 						/>
 					);
 				})}
