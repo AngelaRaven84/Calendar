@@ -1,23 +1,40 @@
 import './calendarDay.css';
 
-export function CalendarDay({ day, isToday, events, onClick, isSelected }) {
+export function CalendarDay({
+	day,
+	isToday,
+	events,
+	onClick,
+	isSelected,
+	onDeleteEvent,
+}) {
 	return (
-		<button
-			type='button'
-			className={`calendar-day ${isToday ? 'calendar-day--today' : ''} ${isSelected ? 'calendar-day--selected' : ''}`}
-			onClick={onClick}>
-			<span>{day}</span>
+		<div
+			className={`calendar-day ${isToday ? 'calendar-day--today' : ''} ${isSelected ? 'calendar-day--selected' : ''}`}>
+			<button type='button' className='calendar-day__select' onClick={onClick}>
+				<span>{day}</span>
+			</button>
 
 			{events.length > 0 && (
 				<div className='calendar-day--events'>
 					{events.map((event) => (
-						<small key={event.id}>
-							{event.time} - {event.title}
-						</small>
+						<div className='calendar-day__event' key={event.id}>
+							<small>
+								{event.time} - {event.title}
+							</small>
+
+							<button
+								type='button'
+								className='calendar-day__delete'
+								onClick={() => onDeleteEvent(event.id)}
+								aria-label={`Ta bort ${event.title}`}>
+								X
+							</button>
+						</div>
 					))}
 				</div>
 			)}
-		</button>
+		</div>
 	);
 }
 

@@ -16,6 +16,7 @@ function Calendar() {
 
 	const events = useCalendarStore((state) => state.events);
 	const addEvent = useCalendarStore((state) => state.addEvent);
+	const deleteEvent = useCalendarStore((state) => state.deleteEvent);
 	const today = new Date();
 	const year = currentDate.getFullYear();
 	const month = currentDate.getMonth();
@@ -90,6 +91,7 @@ function Calendar() {
 							isSelected={isSelected}
 							events={dayEvents}
 							onClick={() => setSelectedDate(date)}
+							onDeleteEvent={deleteEvent}
 						/>
 					);
 				})}
