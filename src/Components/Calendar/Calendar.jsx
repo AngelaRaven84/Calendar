@@ -13,7 +13,9 @@ import './calendar.css';
 function Calendar() {
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const [selectedDate, setSelectedDate] = useState(null);
+	const [editingEvent, setEditingEvent] = useState(null);
 
+	const updateEvent = useCalendarStore((state) => state.updateEvent);
 	const events = useCalendarStore((state) => state.events);
 	const addEvent = useCalendarStore((state) => state.addEvent);
 	const deleteEvent = useCalendarStore((state) => state.deleteEvent);
@@ -28,10 +30,12 @@ function Calendar() {
 	const handlePrevMonth = () => {
 		setCurrentDate(new Date(year, month - 1, 1));
 		setSelectedDate(null);
+		setEditingEvent(null);
 	};
 	const handleNextMonth = () => {
 		setCurrentDate(new Date(year, month + 1, 1));
 		setSelectedDate(null);
+		setEditingEvent(null);
 	};
 
 	return (
@@ -81,7 +85,9 @@ function Calendar() {
 						? formatDateKey(selectedDate) === dateKey
 						: false;
 
-					const dayEvents = events.filter((event) => event.date === dateKey);
+					const dayEvents = events
+						.filter((event) => event.date === dateKey)
+						.sort((a, b) => a.time.localeCompare(b.time));
 
 					return (
 						<CalendarDay
@@ -90,7 +96,14 @@ function Calendar() {
 							isToday={isToday}
 							isSelected={isSelected}
 							events={dayEvents}
-							onClick={() => setSelectedDate(date)}
+							onClick={() => {
+								setSelectedDate(date);
+								setEditingEvent(null);
+							}}
+							onEditEvent={(event) => {
+								setSelectedDate(date);
+								setEditingEvent(event);
+							}}
 							onDeleteEvent={deleteEvent}
 						/>
 					);
@@ -98,7 +111,14 @@ function Calendar() {
 			</div>
 
 			{selectedDate && (
-				<EventForm selectedDate={selectedDate} onAddEvent={addEvent} />
+				<EventForm
+					key={editingEvent?.id ?? formatDateKey(selectedDate)}
+					selectedDate={selectedDate}
+					onAddEvent={addEvent}
+					eventToEdit={editingEvent}
+					onUpdateEvent={updateEvent}
+					onCancelEdit={() => setEditingEvent(null)}
+				/>
 			)}
 		</section>
 	);

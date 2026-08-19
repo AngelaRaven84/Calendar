@@ -2,21 +2,35 @@ import { useState } from 'react';
 import { formatDateKey } from '../../Utils/CalendarUtils';
 import './eventForm.css';
 
-function EventForm({ selectedDate, onAddEvent }) {
-	const [title, setTitle] = useState('');
-	const [time, setTime] = useState('');
+function EventForm({
+	selectedDate,
+	onAddEvent,
+	eventToEdit = null,
+	onUpdateEvent,
+	onCancelEdit,
+}) {
+	const [title, setTitle] = useState(eventToEdit?.title ?? '');
+	const [time, setTime] = useState(eventToEdit?.time ?? '');
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		const newEvent = {
-			id: crypto.randomUUID(),
+		const eventData = {
 			title,
 			time,
 			date: formatDateKey(selectedDate),
 		};
 
-		onAddEvent(newEvent);
+		if (eventToEdit) {
+			onUpdateEvent(eventToEdit.id, eventData);
+			onCancelEdit();
+			return;
+		}
+
+		onAddEvent({
+			id: crypto.randomUUID(),
+			...eventData,
+		});
 
 		setTitle('');
 		setTime('');
@@ -25,7 +39,7 @@ function EventForm({ selectedDate, onAddEvent }) {
 	return (
 		<form className='event-form' onSubmit={handleSubmit}>
 			<h2>
-				Event för
+				{eventToEdit ? 'Redigera event för ' : 'Event för '}
 				{selectedDate.toLocaleDateString('sv-SE')}
 			</h2>
 			<input
@@ -42,7 +56,15 @@ function EventForm({ selectedDate, onAddEvent }) {
 				required
 			/>
 
-			<button type='submit'>Spara event</button>
+			<button type='submit'>
+				{eventToEdit ? 'Spara ändringar' : 'Spara event'}
+			</button>
+
+			{eventToEdit && (
+				<button type='button' onClick={onCancelEdit}>
+					Avbryt
+				</button>
+			)}
 		</form>
 	);
 }

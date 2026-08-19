@@ -7,6 +7,7 @@ export function CalendarDay({
 	onClick,
 	isSelected,
 	onDeleteEvent,
+	onEditEvent,
 }) {
 	return (
 		<div
@@ -22,6 +23,14 @@ export function CalendarDay({
 							<small>
 								{event.time} - {event.title}
 							</small>
+
+							<button
+								type='button'
+								className='calendar-day__edit'
+								onClick={() => onEditEvent(event)}
+								aria-label={`Redigera ${event.title}`}>
+								Redigera
+							</button>
 
 							<button
 								type='button'
