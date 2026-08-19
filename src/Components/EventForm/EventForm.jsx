@@ -33,6 +33,13 @@ function EventForm({ selectedDate, onAddEvent }) {
 				placeholder='Eventtitel'
 				value={title}
 				onChange={(e) => setTitle(e.target.value)}
+				required
+			/>
+			<input
+				type='time'
+				value={time}
+				onChange={(e) => setTime(e.target.value)}
+				required
 			/>
 
 			<button type='submit'>Spara event</button>
