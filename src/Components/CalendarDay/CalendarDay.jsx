@@ -9,7 +9,7 @@ export function CalendarDay({ day, isToday, events, onClick, isSelected }) {
 			<span>{day}</span>
 
 			{events.length > 0 && (
-				<div className='calendar-day__events'>
+				<div className='calendar-day--events'>
 					{events.map((event) => (
 						<small key={event.id}>{event.title}</small>
 					))}

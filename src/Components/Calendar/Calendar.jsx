@@ -24,11 +24,11 @@ function Calendar() {
 
 	const handlePrevMonth = () => {
 		setCurrentDate(new Date(year, month - 1, 1));
-		selectedDate(null);
+		setSelectedDate(null);
 	};
 	const handleNextMonth = () => {
 		setCurrentDate(new Date(year, month + 1, 1));
-		selctedDate(null);
+		setSelectedDate(null);
 	};
 
 	const handleAddEvent = (newEvent) => {
