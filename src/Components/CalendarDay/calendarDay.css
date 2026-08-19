@@ -8,10 +8,6 @@
 	padding: 0.5rem;
 }
 
-.calendar-day:focus {
-	outline: none;
-}
-
 .calendar-day--empty {
 	background: transparent;
 	border: none;
@@ -23,9 +19,27 @@
 	text-decoration: underline;
 }
 
+.calendar-day__select {
+	width: 100%;
+	border: none;
+	padding: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+
 .calendar-day--selected {
 	outline: 3px solid black;
 	outline-offset: -3px;
+}
+
+.calendar-day__event {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.25rem;
 }
 
 .calendar-day--events {
@@ -37,4 +51,12 @@
 
 .calendar-day--events small {
 	font-size: 0.7rem;
+}
+
+.calendar-day__delete {
+	border: none;
+	background: transparent;
+	color: #b00020;
+	font-size: 1rem;
+	cursor: pointer;
 }

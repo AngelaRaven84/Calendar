@@ -10,6 +10,11 @@ export const useCalendarStore = create(
 				set((state) => ({
 					events: [...state.events, newEvent],
 				})),
+
+			deleteEvent: (eventId) =>
+				set((state) => ({
+					events: state.events.filter((event) => event.id !== eventId),
+				})),
 		}),
 		{
 			name: 'calendar-events',
