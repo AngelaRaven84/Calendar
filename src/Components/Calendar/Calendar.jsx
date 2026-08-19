@@ -7,13 +7,15 @@ import {
 	getMonthName,
 	formatDateKey,
 } from '../../Utils/CalendarUtils';
+import { useCalendarStore } from '../../Store/useCalendarStore';
 import './calendar.css';
 
 function Calendar() {
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const [selectedDate, setSelectedDate] = useState(null);
-	const [events, setEvents] = useState([]);
 
+	const events = useCalendarStore((state) => state.events);
+	const addEvent = useCalendarStore((state) => state.addEvent);
 	const today = new Date();
 	const year = currentDate.getFullYear();
 	const month = currentDate.getMonth();
@@ -29,10 +31,6 @@ function Calendar() {
 	const handleNextMonth = () => {
 		setCurrentDate(new Date(year, month + 1, 1));
 		setSelectedDate(null);
-	};
-
-	const handleAddEvent = (newEvent) => {
-		setEvents([...events, newEvent]);
 	};
 
 	return (
@@ -98,7 +96,7 @@ function Calendar() {
 			</div>
 
 			{selectedDate && (
-				<EventForm selectedDate={selectedDate} onAddEvent={handleAddEvent} />
+				<EventForm selectedDate={selectedDate} onAddEvent={addEvent} />
 			)}
 		</section>
 	);
