@@ -39,6 +39,17 @@ function Calendar() {
 	};
 
 	const handleDeleteEvent = (eventId) => {
+		const eventToDelete = events.find((event) => event.id === eventId);
+		const eventTitle = eventToDelete?.title ?? 'detta event';
+
+		const shouldDelete = window.confirm(
+			`Vill du verkligen ta bort '${eventTitle}'?`,
+		);
+
+		if (!shouldDelete) {
+			return;
+		}
+
 		deleteEvent(eventId);
 
 		if (editingEvent?.id === eventId) {
