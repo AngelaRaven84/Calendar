@@ -1,5 +1,22 @@
+:root {
+	--color-background: #f5efe5;
+	--color-surface: #ffffdf8;
+	--color-text: #292a25;
+	--color-text-muted: #6f786c;
+	--color-accent: #c96342;
+	--color-weekend: #f0e2d1;
+	--color-border: #ded8cd;
+}
+
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+}
+
+body {
+	min-height: 100vh;
+	background-color: var(--color-background);
+	color: var(--color-text);
+	font-family: Arial, Helvetica, sans-serif;
 }

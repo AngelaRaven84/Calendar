@@ -12,6 +12,12 @@ function EventForm({
 	const [title, setTitle] = useState(eventToEdit?.title ?? '');
 	const [time, setTime] = useState(eventToEdit?.time ?? '');
 
+	const formattedSelectedDate = selectedDate.toLocaleDateString('sv-SE', {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
+	});
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
@@ -40,7 +46,7 @@ function EventForm({
 		<form className='event-form' onSubmit={handleSubmit}>
 			<h2>
 				{eventToEdit ? 'Redigera event för ' : 'Event för '}
-				{selectedDate.toLocaleDateString('sv-SE')}
+				{formattedSelectedDate}
 			</h2>
 			<input
 				type='text'

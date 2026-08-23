@@ -1,7 +1,33 @@
 .calendar {
-	width: min(100%, 900px);
+	width: min(100%, 1100px);
 	margin: 0 auto;
-	padding: 1rem;
+	padding: 2rem clamp(1rem, 4vw, 3rem);
+}
+
+.calendar__eyebrow {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 1.25rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 1px solid var(--color-border);
+	color: var(--color-text-muted);
+	font-size: 0.65rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04rem;
+}
+
+.calendar__eyebrow p {
+	margin: 0;
+}
+
+.calendar__hero {
+	display: block;
+	width: 100%;
+	height: clamp(180px, 26vw, 300px);
+	margin-bottom: 1.5rem;
+	border-radius: 0.75rem;
+	object-fit: cover;
 }
 
 .calendar__header {
@@ -11,14 +37,30 @@
 }
 
 .calendar__header button {
-	padding: 0.5rem 0.8rem;
+	display: grid;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	place-items: center;
+	border: 1px solid var(--color-border);
+	border-radius: 0.5rem;
+	background-color: var(--color-surface);
+	color: var(--color-text);
+	font-size: 1rem;
 	cursor: pointer;
 }
 
+.calendar__header button:hover {
+	border-color: var(--color-accent);
+	color: var(--color-accent);
+}
+
 .calendar__title {
-	text-align: center;
 	margin: 1rem 0;
+	font-family: Georgia, 'Times New Roman', serif;
 	font-size: 2.5rem;
+	font-weight: 400;
+	line-height: 1.1;
 }
 
 .calendar__weekdays,
@@ -28,11 +70,28 @@
 }
 
 .calendar__weekdays {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
 	text-align: center;
-	font-weight: 700;
-	font-size: 1.2rem;
+	color: var(--color-accent);
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.04rem;
 }
 
 .calendar__weekdays p {
-	margin: 0 0 0.5rem;
+	margin: 0;
+	padding: 0.75rem 0;
+	border: 1px solid var(--color-border);
+	border-bottom: none;
+}
+
+.calendar__grid > .calendar-day:nth-child(7n + 6):not(.calendar-day--empty),
+.calendar__grid > .calendar-day:nth-child(7n + 7):not(.calendar-day--empty) {
+	background-color: var(--color-weekend);
+}
+
+.calendar__grid > .calendar-day.calendar-day--selected {
+	background-color: #fff3eb;
 }

@@ -1,23 +1,60 @@
 .event-form {
-	margin-top: 1.5rem;
-	padding: 1rem;
-	border: 1px solid #ddd;
-	background: #fafafa;
+	width: min(100%, 600px);
+	margin:
+		2rem,
+		auto 0;
+	padding: 1.5rem;
+	border: 1px solid var(--color-border);
+	border-radius: 0.75rem;
+	background-color: var(--color-surface);
 }
 
 .event-form h2 {
-	margin-top: 0;
+	margin: 0 0 1rem;
+	font-family: Georgia, 'Times New Roman', serif;
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 1.2;
 }
 
 .event-form input {
 	display: block;
 	width: 100%;
 	margin-bottom: 0.75rem;
-	padding: 0.7rem;
+	padding: 0.75rem;
+	border: 1px solid var(--color-border);
+	border-radius: 0.4rem;
+	background-color: var(--color-surface);
+	color: var(--color-text);
+	font: inherit;
 	font-size: 1rem;
+}
+
+.event-form input:focus {
+	border-color: var(--color-accent);
+	outline: 2px solid #f3c4b3;
+	outline-offset: 1px;
 }
 
 .event-form button {
 	padding: 0.7rem 1rem;
+	border: 1px solid var(--color-accent);
+	border-radius: 0.4rem;
+	font: inherit;
 	cursor: pointer;
+}
+
+.event-form button[type='submit'] {
+	background-color: var(--color-accent);
+	color: var(--color-surface);
+}
+
+.event-form button[type='button'] {
+	margin-left: 0.5rem;
+	background-color: transparent;
+	color: var(--color-accent);
+}
+
+.event-form button:hover {
+	filter: brightness(0.95);
 }

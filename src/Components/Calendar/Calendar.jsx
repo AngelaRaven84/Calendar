@@ -9,6 +9,7 @@ import {
 } from '../../Utils/CalendarUtils';
 import { useCalendarStore } from '../../Store/useCalendarStore';
 import './calendar.css';
+import heroPhoto from '../../assets/hero-photo.png';
 
 function Calendar() {
 	const [currentDate, setCurrentDate] = useState(new Date());
@@ -59,6 +60,25 @@ function Calendar() {
 
 	return (
 		<section className='calendar'>
+			<div className='calendar__eyebrow'>
+				<p>
+					Personlig almanacka
+					<span aria-hidden='true'> | </span>
+					Svensk design
+				</p>
+
+				<p>
+					{getMonthName(month)} {year}
+					<span aria-hidden='true'> ♡</span>
+				</p>
+			</div>
+
+			<img
+				className='calendar__hero'
+				src={heroPhoto}
+				alt='Svenskt landskap med sjö, skog och berg'
+			/>
+
 			<div className='calendar__header'>
 				<button type='button' onClick={handlePrevMonth}>
 					←
