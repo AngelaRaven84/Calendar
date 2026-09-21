@@ -66,12 +66,12 @@
 .calendar__weekdays,
 .calendar__grid {
 	display: grid;
-	grid-template-columns: repeat(7, 1fr);
+	grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
 .calendar__weekdays {
 	display: grid;
-	grid-template-columns: repeat(7, 1fr);
+	grid-template-columns: repeat(7, minmax(0, 1fr));
 	text-align: center;
 	color: var(--color-accent);
 	font-size: 0.75rem;

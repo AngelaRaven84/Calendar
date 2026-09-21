@@ -14,7 +14,7 @@
 	cursor: default;
 }
 
-.calendar-day--today .calender-day__select {
+.calendar-day--today .calendar-day__select {
 	color: var(--color-accent);
 	font-weight: 700;
 }
@@ -81,4 +81,21 @@
 .calendar-day__edit:hover,
 .calendar-day__delete:hover {
 	text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+	.calendar-day {
+		padding: 0.25rem;
+		min-width: 0;
+	}
+
+	.calendar-day__event {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.calendar-day--events small {
+		max-width: 100%;
+		overflow-wrap: anywhere;
+	}
 }

@@ -80,7 +80,10 @@ function Calendar() {
 			/>
 
 			<div className='calendar__header'>
-				<button type='button' onClick={handlePrevMonth}>
+				<button
+					type='button'
+					onClick={handlePrevMonth}
+					aria-label='Föregående månad'>
 					←
 				</button>
 
@@ -88,7 +91,10 @@ function Calendar() {
 					{getMonthName(month)} {year}
 				</h1>
 
-				<button type='button' onClick={handleNextMonth}>
+				<button
+					type='button'
+					onClick={handleNextMonth}
+					aria-label='Nästa månad'>
 					→
 				</button>
 			</div>

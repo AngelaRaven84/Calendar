@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { formatDateKey } from '../../Utils/CalendarUtils';
 import './eventForm.css';
@@ -34,7 +35,7 @@ function EventForm({
 		}
 
 		onAddEvent({
-			id: crypto.randomUUID(),
+			id: uuidv4(),
 			...eventData,
 		});
 
@@ -48,14 +49,18 @@ function EventForm({
 				{eventToEdit ? 'Redigera event för ' : 'Event för '}
 				{formattedSelectedDate}
 			</h2>
+			<label htmlFor='event-title'>Titel</label>
 			<input
+				id='event-title'
 				type='text'
 				placeholder='Eventtitel'
 				value={title}
 				onChange={(e) => setTitle(e.target.value)}
 				required
 			/>
+			<label htmlFor='event-time'></label>
 			<input
+				id='event-time'
 				type='time'
 				value={time}
 				onChange={(e) => setTime(e.target.value)}
