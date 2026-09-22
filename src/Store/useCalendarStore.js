@@ -5,7 +5,7 @@ export const useCalendarStore = create((set) => ({
 
 	setEvents: (events) => set({ events }),
 
-	addEvents: (newEvent) =>
+	addEvent: (newEvent) =>
 		set((state) => ({
 			events: [...state.events, newEvent],
 		})),

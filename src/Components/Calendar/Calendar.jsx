@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getEvents } from '../../Api/events';
+import { getEvents, createEvent } from '../../Api/events';
 import CalendarDay from '../CalendarDay/CalendarDay';
 import EventForm from '../EventForm/EventForm';
 import {
@@ -59,6 +59,11 @@ function Calendar({ userId, accessToken }) {
 			ignore = true;
 		};
 	}, [userId, accessToken, setEvents]);
+
+	const handleAddEvent = async (eventData) => {
+		const savedEvent = await createEvent(userId, accessToken, eventData);
+		addEvent(savedEvent);
+	};
 
 	const handlePrevMonth = () => {
 		setCurrentDate(new Date(year, month - 1, 1));
@@ -197,7 +202,7 @@ function Calendar({ userId, accessToken }) {
 				<EventForm
 					key={editingEvent?.id ?? formatDateKey(selectedDate)}
 					selectedDate={selectedDate}
-					onAddEvent={addEvent}
+					onAddEvent={handleAddEvent}
 					eventToEdit={editingEvent}
 					onUpdateEvent={updateEvent}
 					onCancelEdit={() => setEditingEvent(null)}

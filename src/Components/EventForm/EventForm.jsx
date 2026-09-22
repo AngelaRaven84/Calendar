@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { formatDateKey } from '../../Utils/CalendarUtils';
 import './eventForm.css';
@@ -15,6 +14,8 @@ function EventForm({
 		eventToEdit?.startTime ?? eventToEdit?.time ?? '',
 	);
 	const [endTime, setEndTime] = useState(eventToEdit?.endTime ?? '');
+	const [error, setError] = useState('');
+	const [isSaving, setIsSaving] = useState(false);
 
 	const formattedSelectedDate = selectedDate.toLocaleDateString('sv-SE', {
 		day: 'numeric',
@@ -22,8 +23,13 @@ function EventForm({
 		year: 'numeric',
 	});
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		if (isSaving) return;
+
+		setError('');
+		setIsSaving(true);
 
 		const eventData = {
 			title,
@@ -32,20 +38,21 @@ function EventForm({
 			date: formatDateKey(selectedDate),
 		};
 
-		if (eventToEdit) {
-			onUpdateEvent(eventToEdit.id, eventData);
-			onCancelEdit();
-			return;
+		try {
+			if (eventToEdit) {
+				await onUpdateEvent(eventToEdit.id, eventData);
+				onCancelEdit();
+			} else {
+				await onAddEvent(eventData);
+				setTitle('');
+				setStartTime('');
+				setEndTime('');
+			}
+		} catch (error) {
+			setError(error.message);
+		} finally {
+			setIsSaving(false);
 		}
-
-		onAddEvent({
-			id: uuidv4(),
-			...eventData,
-		});
-
-		setTitle('');
-		setStartTime('');
-		setEndTime('');
 	};
 
 	return (
@@ -80,8 +87,14 @@ function EventForm({
 				required
 			/>
 
-			<button type='submit'>
-				{eventToEdit ? 'Spara ändringar' : 'Spara event'}
+			{error && <p role='alert'>{error}</p>}
+
+			<button type='submit' disabled={isSaving}>
+				{isSaving
+					? 'Sparar...'
+					: eventToEdit
+						? 'Spara ändringar'
+						: 'Spara event'}
 			</button>
 
 			{eventToEdit && (
