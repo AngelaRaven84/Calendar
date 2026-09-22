@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getEvents } from '../../Api/events';
 import CalendarDay from '../CalendarDay/CalendarDay';
 import EventForm from '../EventForm/EventForm';
 import {
@@ -11,11 +12,14 @@ import { useCalendarStore } from '../../Store/useCalendarStore';
 import './calendar.css';
 import heroPhoto from '../../assets/hero-photo.png';
 
-function Calendar() {
+function Calendar({ userId, accessToken }) {
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [editingEvent, setEditingEvent] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState('');
 
+	const setEvents = useCalendarStore((state) => state.setEvents);
 	const updateEvent = useCalendarStore((state) => state.updateEvent);
 	const events = useCalendarStore((state) => state.events);
 	const addEvent = useCalendarStore((state) => state.addEvent);
@@ -27,6 +31,34 @@ function Calendar() {
 	const firstDayOfMonth = getFirstDayOfMonth(year, month);
 	const emptyDays = Array.from({ length: firstDayOfMonth });
 	const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
+
+	useEffect(() => {
+		let ignore = false;
+
+		const loadEvents = async () => {
+			try {
+				const events = await getEvents(userId, accessToken);
+
+				if (!ignore) {
+					setEvents(events);
+				}
+			} catch (error) {
+				if (!ignore) {
+					setError(error.message);
+				}
+			} finally {
+				if (!ignore) {
+					setIsLoading(false);
+				}
+			}
+		};
+
+		loadEvents();
+
+		return () => {
+			ignore = true;
+		};
+	}, [userId, accessToken, setEvents]);
 
 	const handlePrevMonth = () => {
 		setCurrentDate(new Date(year, month - 1, 1));
@@ -60,6 +92,8 @@ function Calendar() {
 
 	return (
 		<section className='calendar'>
+			{isLoading && <p role='status'>Hämtar händelser...</p>}
+			{error && <p role='alert'>{error}</p>}
 			<div className='calendar__eyebrow'>
 				<p>
 					Personlig almanacka
