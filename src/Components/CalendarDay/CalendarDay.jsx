@@ -21,7 +21,8 @@ export function CalendarDay({
 					{events.map((event) => (
 						<div className='calendar-day__event' key={event.id}>
 							<small>
-								{event.time} - {event.title}
+								{event.startTime ?? event.time}
+								{event.endTime ? `-${event.endTime}` : ''} - {event.title}
 							</small>
 
 							<button

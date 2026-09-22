@@ -132,7 +132,11 @@ function Calendar() {
 
 					const dayEvents = events
 						.filter((event) => event.date === dateKey)
-						.sort((a, b) => a.time.localeCompare(b.time));
+						.sort((a, b) =>
+							(a.startTime ?? a.time ?? '').localeCompare(
+								b.startTime ?? b.time ?? '',
+							),
+						);
 
 					return (
 						<CalendarDay

@@ -11,7 +11,10 @@ function EventForm({
 	onCancelEdit,
 }) {
 	const [title, setTitle] = useState(eventToEdit?.title ?? '');
-	const [time, setTime] = useState(eventToEdit?.time ?? '');
+	const [startTime, setStartTime] = useState(
+		eventToEdit?.startTime ?? eventToEdit?.time ?? '',
+	);
+	const [endTime, setEndTime] = useState(eventToEdit?.endTime ?? '');
 
 	const formattedSelectedDate = selectedDate.toLocaleDateString('sv-SE', {
 		day: 'numeric',
@@ -24,7 +27,8 @@ function EventForm({
 
 		const eventData = {
 			title,
-			time,
+			startTime,
+			endTime,
 			date: formatDateKey(selectedDate),
 		};
 
@@ -40,7 +44,8 @@ function EventForm({
 		});
 
 		setTitle('');
-		setTime('');
+		setStartTime('');
+		setEndTime('');
 	};
 
 	return (
@@ -58,12 +63,20 @@ function EventForm({
 				onChange={(e) => setTitle(e.target.value)}
 				required
 			/>
-			<label htmlFor='event-time'></label>
+			<label htmlFor='event-time'>Starttid</label>
 			<input
 				id='event-time'
 				type='time'
-				value={time}
-				onChange={(e) => setTime(e.target.value)}
+				value={startTime}
+				onChange={(e) => setStartTime(e.target.value)}
+				required
+			/>
+			<label htmlFor='event-end-time'>Sluttid</label>
+			<input
+				id='event-end-time'
+				type='time'
+				value={endTime}
+				onChange={(e) => setEndTime(e.target.value)}
 				required
 			/>
 
