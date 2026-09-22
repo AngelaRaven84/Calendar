@@ -1,30 +1,24 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
-export const useCalendarStore = create(
-	persist(
-		(set) => ({
-			events: [],
+export const useCalendarStore = create((set) => ({
+	events: [],
 
-			addEvent: (newEvent) =>
-				set((state) => ({
-					events: [...state.events, newEvent],
-				})),
+	setEvents: (events) => set({ events }),
 
-			deleteEvent: (eventId) =>
-				set((state) => ({
-					events: state.events.filter((event) => event.id !== eventId),
-				})),
+	addEvents: (newEvent) =>
+		set((state) => ({
+			events: [...state.events, newEvent],
+		})),
 
-			updateEvent: (eventId, updates) =>
-				set((state) => ({
-					events: state.events.map((event) =>
-						event.id === eventId ? { ...event, ...updates } : event,
-					),
-				})),
-		}),
-		{
-			name: 'calendar-events',
-		},
-	),
-);
+	deleteEvent: (eventId) =>
+		set((state) => ({
+			events: state.events.filter((event) => event.id !== eventId),
+		})),
+
+	updateEvent: (eventId, updates) =>
+		set((state) => ({
+			events: state.events.map((event) =>
+				event.id === eventId ? { ...event, ...updates } : event,
+			),
+		})),
+}));
