@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { getEvents, createEvent } from '../../Api/events';
+import {
+	getEvents,
+	createEvent,
+	updateEvent as updateEventApi,
+	deleteEvent as deleteEventApi,
+} from '../../Api/events';
 import CalendarDay from '../CalendarDay/CalendarDay';
 import EventForm from '../EventForm/EventForm';
 import {
@@ -65,6 +70,17 @@ function Calendar({ userId, accessToken }) {
 		addEvent(savedEvent);
 	};
 
+	const handleUpdateEvent = async (eventId, updates) => {
+		const savedEvent = await updateEventApi(
+			userId,
+			accessToken,
+			eventId,
+			updates,
+		);
+
+		updateEvent(eventId, savedEvent);
+	};
+
 	const handlePrevMonth = () => {
 		setCurrentDate(new Date(year, month - 1, 1));
 		setSelectedDate(null);
@@ -76,7 +92,7 @@ function Calendar({ userId, accessToken }) {
 		setEditingEvent(null);
 	};
 
-	const handleDeleteEvent = (eventId) => {
+	const handleDeleteEvent = async (eventId) => {
 		const eventToDelete = events.find((event) => event.id === eventId);
 		const eventTitle = eventToDelete?.title ?? 'detta event';
 
@@ -84,14 +100,19 @@ function Calendar({ userId, accessToken }) {
 			`Vill du verkligen ta bort '${eventTitle}'?`,
 		);
 
-		if (!shouldDelete) {
-			return;
-		}
+		if (!shouldDelete) return;
 
-		deleteEvent(eventId);
+		setError('');
 
-		if (editingEvent?.id === eventId) {
-			setEditingEvent(null);
+		try {
+			await deleteEventApi(userId, accessToken, eventId);
+			deleteEvent(eventId);
+
+			if (editingEvent?.id === eventId) {
+				setEditingEvent(null);
+			}
+		} catch (error) {
+			setError(error.message);
 		}
 	};
 
@@ -204,7 +225,7 @@ function Calendar({ userId, accessToken }) {
 					selectedDate={selectedDate}
 					onAddEvent={handleAddEvent}
 					eventToEdit={editingEvent}
-					onUpdateEvent={updateEvent}
+					onUpdateEvent={handleUpdateEvent}
 					onCancelEdit={() => setEditingEvent(null)}
 				/>
 			)}
