@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import {
 	getEvents,
 	createEvent,
@@ -77,7 +78,7 @@ function Calendar({ userId, accessToken, isDemo = false }) {
 
 	const handleAddEvent = async (eventData) => {
 		if (isDemo) {
-			const id = crypto.randomUUID();
+			const id = uuidv4();
 			setDemoEvents((events) => [...events, { ...eventData, id }]);
 			return;
 		}

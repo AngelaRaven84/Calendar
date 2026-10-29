@@ -15,7 +15,7 @@ Välj **Prova kalendern** på startsidan. Inget konto krävs.
 
 **Demon använder påhittade uppgifter.** Ändringar finns bara i minnet under besöket. De skickas inte till något API och återställs när du lämnar demon eller laddar om sidan. Inget sparas i localStorage.
 
-**Publiceringsstatus:** Den nya demon är färdig lokalt men ännu inte publicerad. [Den tidigare S3-versionen](http://calendar-bucket-260921.s3-website.eu-north-1.amazonaws.com) visar fortfarande den äldre inloggningen.
+**Publicerad demo:** [Prova Calendar](http://calendar-bucket-260921.s3-website.eu-north-1.amazonaws.com). Uppdaterad och verifierad 29 oktober 2026. Välj Prova kalendern på startsidan.
 
 ## Bilder
 
@@ -68,11 +68,11 @@ npm run build
 - Demodata återställs och är inte permanent lagring.
 - Månadsspecifika anteckningar och Månadens fokus är idéer för fortsatt utveckling.
 - Kontoläget saknar registreringsvy och automatisk hantering av utgången session. Utloggning rensar den lokala sessionen.
-- Den äldre skolpubliceringen använder HTTP. HTTPS och en uppdaterad publicering återstår.
+- Den äldre skolpubliceringen använder HTTP. HTTPS återstår. Demoläget fungerar på den befintliga HTTP-adressen; använd inte riktiga inloggningsuppgifter där.
 - Tillgänglighetsarbetet pågår; projektet har inte genomgått en fullständig tillgänglighetsrevision.
 
 ## Verifiering
 
-Demons grundflöde har testats lokalt med skapa, redigera, radera, avbruten radering, månadsbyte och återställning. Nätverkskontroll visade inga API-anrop från demon. Sara har också provat grunddemon manuellt. Den uppdaterade dagslistan har testats på mobil, inklusive titel- och tidsvalidering. Vyer på dator och mobil har granskats visuellt; ingen horisontell överbredd uppmättes vid 320 och 390 pixlar. Lint och produktionsbygge passerar.
+Demons grundflöde har testats lokalt med skapa, redigera, radera, avbruten radering, månadsbyte och återställning. Nätverkskontroll visade inga API-anrop från demon. Sara har också provat grunddemon manuellt. Demoflödet har också verifierats på den publicerade S3-adressen den 29 oktober 2026, inklusive skapa, redigera, radera, avbruten radering, återställning och noll API-anrop. Den uppdaterade dagslistan har testats på mobil, inklusive titel- och tidsvalidering. Vyer på dator och mobil har granskats visuellt; ingen horisontell överbredd uppmättes vid 320 och 390 pixlar. Lint och produktionsbygge passerar.
 
 Kontolägets AWS-flöde verifierades manuellt av Sara i september 2026. Det har inte testats på nytt inom arbetet med demon. [Tidigare arbetslogg och publiceringsinstruktioner](docs/DEVELOPMENT_HISTORY.md).
