@@ -1,108 +1,78 @@
 # Calendar
 
-Calendar är ett pågående fritidsprojekt där jag utforskar hela kedjan från användargränssnitt till backend och molnlagring. Delar av projektet har även vidareutvecklats inom utbildningen. Det är en prototyp under utveckling.
+En personlig kalender som jag utvecklar på fritiden för att lära mig mer om användarvänliga gränssnitt och hur frontend, backend och molnlagring hänger ihop. Delar av projektet har också vidareutvecklats inom min utbildning till frontendutvecklare.
 
-## Prova kalendern
+**Status: pågående prototyp.** Det här är ett utvecklingsprojekt, inte en färdig produkt.
 
-Välj **Prova kalendern** på startsidan för ett demoläge utan konto. Du kan byta månad och skapa, redigera och radera påhittade händelser. Demodata hålls separat i komponentens minne, skickas inte till API:t och återställs vid omladdning eller när du lämnar demon. Inget sparas i localStorage.
+## Prova demon
 
-**Logga in med konto** öppnar den befintliga AWS-integrationen. Demon testar inte den integrationen.
+Välj **Prova kalendern** på startsidan. Inget konto krävs.
 
-**Publiceringsstatus:** Demoläget är tillagt lokalt. S3-versionen behöver uppdateras innan besökare kan använda det där.
+- Byt månad och välj ett datum.
+- Skapa, redigera och radera exempelhändelser.
+- På mobilen visas antal händelser i datumrutan. Välj datumet för att läsa och hantera händelser i en lista under kalendern.
+- Titeln får inte vara tom och sluttiden måste vara senare än starttiden. Händelser över midnatt stöds inte.
 
-## Bakgrund och tidigare verifiering
+**Demon använder påhittade uppgifter.** Ändringar finns bara i minnet under besöket. De skickas inte till något API och återställs när du lämnar demon eller laddar om sidan. Inget sparas i localStorage.
 
-En svensk kalender byggd med React, Vite och Zustand. Frontend publiceras på Amazon S3 och kommunicerar med Calendar Events API via API Gateway, Lambda och DynamoDB.
+**Publiceringsstatus:** Den nya demon är färdig lokalt men ännu inte publicerad. [Den tidigare S3-versionen](http://calendar-bucket-260921.s3-website.eu-north-1.amazonaws.com) visar fortfarande den äldre inloggningen.
 
-**Status 22 september 2026:** Deployment Bootcamp, övning 2 och 3, genomförda. Sara har bekräftat hela CRUD-flödet både lokalt och från S3 efter den senaste publiceringen.
+## Bilder
 
-[Publicerad skolversion](http://calendar-bucket-260921.s3-website.eu-north-1.amazonaws.com) · [Backend](https://github.com/AngelaRaven84/Calendar-Events-API)
+Kalendern på dator med exempeldata:
 
-## Genomförda förbättringar
+![Calendar på dator](docs/screenshots/calendar-desktop.png)
 
-**Avbockat under arbetet 21–22 september:**
+Mobilvy med valt datum och händelser:
 
-- [x] Rätta --color-surface från #ffffdf8 till #fffdf8.
-- [x] Rätta CSS-klassen för dagens datum; fetstil och accentfärg verifierade av Sara.
-- [x] Rätta formulärets margin och kontrollera centrering/avstånd.
-- [x] Ändra dokumentspråket till svenska.
-- [x] Namnge månadspilarna med aria-label och testa Tab/Enter.
-- [x] Lägg till kopplade formuläretiketter och testa fokus genom klick.
-- [x] Anpassa kalenderkolumner och långa eventtitlar till mobil; testa redigerings- och raderingsknappar.
-- [x] Testa månadsväxling och datumval efter designändringarna.
-- [x] Bygg och publicera Calendar på S3; öppna appen via website endpoint.
-- [x] Lägg till starttid och sluttid samt byt time till startTime; testa sortering och redigering.
-- [x] Bygg login med felvisning och session i minnet; testa rätt/fel uppgifter och omladdning.
-- [x] Hämta användarens händelser från API:t med Bearer-token.
-- [x] Skapa händelse via API:t och kontrollera beständighet efter omladdning.
-- [x] Uppdatera händelse via API:t och kontrollera sparad titel med ny hämtning.
-- [x] Radera via API:t; testa både avbryt och bekräfta samt omladdning.
-- [x] Ersätt Zustand persist med lista i minnet; DynamoDB lagrar data permanent.
-- [x] Kör lint och build före publicering, godkänt enligt Sara.
-- [x] Publicera uppdaterat dist och testa hela API-flödet från S3.
-- [x] Ersätt den tomma README-filen med funktioner, installation, publicering och verifieringsstatus.
+![Calendar på mobil](docs/screenshots/calendar-mobile.png)
 
-**Kvar från Calendars tidigare plan – senare arbete:**
+## Vad jag har arbetat med
 
-- [ ] Bygg månadsspecifika Anteckningar med sparat innehåll; lagringslösning anpassas till API:t.
-- [ ] Bygg Månadens fokus som sparad checklista.
-- [ ] Placera dessa två funktioner enligt Figma när de är klara.
-- [ ] Lägg till aktuella screenshots för portfolion.
+- Komponentbaserade gränssnitt i React och en sammanhållen visuell form.
+- Datumlogik, månadsnavigation och formulär för kalenderhändelser.
+- Responsiv layout, formuläretiketter, namngivna knappar och synligt tangentbordsfokus.
+- API-integration och hantering av vänteläge och fel i kontoläget.
+- Ett separat demoläge som går att prova utan konto eller backend.
 
-## Data och inloggning
+## Frontend och separat API
 
-DynamoDB är den permanenta lagringen. Zustand håller den hämtade listan i minnet; persist har tagits bort. Äldre calendar-events i localStorage används inte längre och migreras inte automatiskt.
+Det här repot innehåller **frontend**, byggd med React, Vite och Zustand. Jag har även byggt ett separat backendprojekt: [Calendar Events API](https://github.com/AngelaRaven84/Calendar-Events-API), med API Gateway, AWS Lambda och DynamoDB.
 
-Home håller accessToken och userId i React-state. jwt-decode läser sub ur tokenen, men verifierar inte dess signatur. Backend verifierar tokenen och kontrollerar ägarskapet. Tokenen skickas som Bearer i Authorization-headern och sparas inte i localStorage. Omladdning kräver ny inloggning, varefter händelserna hämtas från API:t.
+**Demoläget** använder tillfällig lokal komponentstate. **Kontoläget**, via Logga in med konto, använder det separata API:t och JWT. Backend verifierar tokenen och ägarskapet; jwt-decode i frontend används bara för att läsa användar-ID. Tokenen finns i React-state och sparas inte vid omladdning. Ingen registrering finns i gränssnittet ännu.
 
 ## Starta lokalt
 
-Använd Node.js 24 och installera beroenden:
+Använd Node.js 24:
 
-~~~bash
+```bash
 npm ci
-~~~
-
-Skapa .env.local bredvid package.json:
-
-~~~dotenv
-VITE_API_URL=https://DIN-API-BASADRESS
-~~~
-
-Använd samma basadress som i Insomnia, utan /login eller /users. Behåll eventuell stage-sökväg. API-adressen är offentlig och byggs in i frontend; lägg aldrig JWT_SECRET, lösenord eller AWS-nycklar i VITE_-variabler. .env.local ignoreras av Git genom *.local.
-
-~~~bash
 npm run dev
-~~~
+```
 
-Starta om Vite efter ändringar av miljövariabler. API:ts CORS tillåter http://localhost:5173 och skolversionens S3-origin. Annan lokal port behöver en motsvarande CORS-inställning.
+Demon fungerar utan miljöfil och utan backend. För kontoläget krävs ett konto och en `.env.local` med en offentlig API-basadress:
 
-Registrera testanvändare via backendens POST /users, exempelvis i Insomnia. Frontend har ännu inget registreringsformulär.
+```dotenv
+VITE_API_URL=https://DIN-API-BASADRESS
+```
 
-## Bygga och publicera
+API-adressen anges utan `/login` eller `/users`. Starta om Vite efter ändringar. Backendens CORS måste tillåta frontendens origin. Lägg aldrig JWT-hemligheter eller AWS-nycklar i frontend.
 
-~~~bash
+```bash
 npm run lint
 npm run build
-~~~
+```
 
-Ladda upp innehållet i dist, inklusive index.html och assets, till roten i S3-bucketen calendar-bucket-260921. Ladda inte upp själva dist-mappen, källkod eller miljöfiler. Static website hosting använder index.html; bucket policy ger offentlig s3:GetObject-åtkomst till frontendfilerna. Öppna website endpoint och gör hård omladdning efter uppdatering.
+## Kända begränsningar och fortsättning
 
-## Verifiering 22 september 2026
+- Demodata återställs och är inte permanent lagring.
+- Månadsspecifika anteckningar och Månadens fokus är idéer för fortsatt utveckling.
+- Kontoläget saknar registreringsvy och automatisk hantering av utgången session. Utloggning rensar den lokala sessionen.
+- Den äldre skolpubliceringen använder HTTP. HTTPS och en uppdaterad publicering återstår.
+- Tillgänglighetsarbetet pågår; projektet har inte genomgått en fullständig tillgänglighetsrevision.
 
-Sara rapporterade godkänd lint/build före uppladdning och verifierade:
+## Verifiering
 
-- Felaktig inloggning visar fel; korrekt inloggning visar kalendern. Omladdning visar login igen.
-- GET 200 hämtar användarens händelser; tom användare ger [].
-- POST 201 visar sparad händelse. Efter omladdning/inloggning finns den kvar.
-- PATCH 200 ändrar titeln; efter ny hämtning finns ändringen kvar.
-- Avbruten radering skickar inget DELETE. Bekräftad DELETE 200 tar bort händelsen även efter omladdning.
-- Samma kompletta flöde fungerar från S3-adressen.
+Demons grundflöde har testats lokalt med skapa, redigera, radera, avbruten radering, månadsbyte och återställning. Nätverkskontroll visade inga API-anrop från demon. Sara har också provat grunddemon manuellt. Den uppdaterade dagslistan har testats på mobil, inklusive titel- och tidsvalidering. Vyer på dator och mobil har granskats visuellt; ingen horisontell överbredd uppmättes vid 320 och 390 pixlar. Lint och produktionsbygge passerar.
 
-Agenten har granskat aktuell kod. AWS- och webbläsarresultaten ovan är Saras manuellt rapporterade tester, inte en automatiserad slut-till-slut-testsvit.
-
-## Avgränsningar och senare arbete
-
-Bootcampens grundflöde är klart. CloudFront/HTTPS, registreringsvy, utloggningsknapp, automatisk hantering av utgången session, Anteckningar och Månadens fokus är senare arbete. Tokenen gäller i 15 minuter; vid utgång visar API-anrop fel och ny inloggning behövs. Skolversionen använder HTTP; inför privat användning med riktiga uppgifter behövs HTTPS även för frontend. uuid finns kvar som beroende från den tidigare lokala versionen men event-ID skapas nu av backend.
-
-**Nästa steg:** Repetera det verifierade flödet inför eventuell munta och invänta examinationens skriftliga krav före nya funktioner.
+Kontolägets AWS-flöde verifierades manuellt av Sara i september 2026. Det har inte testats på nytt inom arbetet med demon. [Tidigare arbetslogg och publiceringsinstruktioner](docs/DEVELOPMENT_HISTORY.md).

@@ -95,3 +95,12 @@
 .calendar__grid > .calendar-day.calendar-day--selected {
 	background-color: #fff3eb;
 }
+
+.calendar__hint { margin-top: 1rem; line-height: 1.5; }
+.calendar__day-details { margin: 1.5rem auto 0; width: min(100%, 600px); padding: 1.25rem; border: 1px solid var(--color-border); border-radius: 0.75rem; background: var(--color-surface); }
+.calendar__day-details h2 { font: 400 1.5rem Georgia, serif; margin-bottom: 1rem; }
+.calendar__day-details ul { list-style: none; }
+.calendar__day-details li { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--color-border); }
+.calendar__day-details p { line-height: 1.5; overflow-wrap: anywhere; min-width: 0; }
+.calendar__day-details button { padding: 0.7rem; margin: 0.25rem; font: inherit; color: var(--color-text); border: 1px solid var(--color-border); border-radius: 0.4rem; background: var(--color-surface); cursor: pointer; }
+@media (max-width: 400px) { .calendar__title { font-size: 2rem; } }

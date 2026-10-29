@@ -102,3 +102,11 @@
 
 .calendar-day__event { flex-wrap: wrap; }
 .calendar-day--events small { flex: 1 0 100%; min-width: 0; overflow-wrap: anywhere; }
+
+.calendar-day__count { display: none; }
+@media (max-width: 600px) {
+  .calendar-day { min-height: 64px; }
+  .calendar-day__select { min-height: 44px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+  .calendar-day--events { display: none; }
+  .calendar-day__count { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #91472f; color: white; font-size: 0.7rem; }
+}

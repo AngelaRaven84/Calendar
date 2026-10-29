@@ -12,8 +12,9 @@ export function CalendarDay({
 	return (
 		<div
 			className={`calendar-day ${isToday ? 'calendar-day--today' : ''} ${isSelected ? 'calendar-day--selected' : ''}`}>
-			<button type='button' className='calendar-day__select' onClick={onClick}>
+			<button type='button' className='calendar-day__select' onClick={onClick} aria-pressed={isSelected} aria-label={`${day}, ${events.length} händelser`}>
 				<span>{day}</span>
+				{events.length > 0 && <span className="calendar-day__count" aria-hidden="true">{events.length}</span>}
 			</button>
 
 			{events.length > 0 && (

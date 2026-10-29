@@ -29,10 +29,18 @@ function EventForm({
 		if (isSaving) return;
 
 		setError('');
+		if (!title.trim()) {
+			setError('Skriv en titel för händelsen.');
+			return;
+		}
+		if (endTime <= startTime) {
+			setError('Sluttiden måste vara senare än starttiden.');
+			return;
+		}
 		setIsSaving(true);
 
 		const eventData = {
-			title,
+			title: title.trim(),
 			startTime,
 			endTime,
 			date: formatDateKey(selectedDate),

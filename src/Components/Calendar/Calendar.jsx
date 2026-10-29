@@ -242,6 +242,26 @@ function Calendar({ userId, accessToken, isDemo = false }) {
 				})}
 			</div>
 
+			<p className='calendar__hint'>Välj ett datum för att se dagens händelser eller lägga till en ny. På mobilen visar markeringen hur många händelser dagen har.</p>
+			{selectedDate && (
+				<section className='calendar__day-details' aria-label='Händelser för valt datum'>
+					<h2>{selectedDate.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric' })}</h2>
+					{events.filter((event) => event.date === formatDateKey(selectedDate)).length === 0 && <p>Inga händelser ännu. Lägg till en nedan.</p>}
+					<ul>
+						{events.filter((event) => event.date === formatDateKey(selectedDate))
+							.sort((a, b) => (a.startTime ?? '').localeCompare(b.startTime ?? ''))
+							.map((event) => (
+								<li key={event.id}>
+									<p><strong>{event.title}</strong><br />{event.startTime ?? event.time}–{event.endTime}</p>
+									<div>
+										<button type='button' aria-label={`Redigera ${event.title}`} onClick={() => setEditingEvent(event)}>Redigera</button>
+										<button type='button' aria-label={`Ta bort ${event.title}`} onClick={() => handleDeleteEvent(event.id)}>Ta bort</button>
+									</div>
+								</li>
+							))}
+					</ul>
+				</section>
+			)}
 			{selectedDate && (
 				<EventForm
 					key={editingEvent?.id ?? formatDateKey(selectedDate)}
