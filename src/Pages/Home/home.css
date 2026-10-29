@@ -1,0 +1,36 @@
+.welcome {
+  width: min(calc(100% - 2rem), 680px);
+  margin: 3rem auto;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+}
+.welcome__label { color: var(--color-text-muted); }
+.welcome h1 { font: 400 2.75rem Georgia, serif; margin: 0.75rem 0 1.25rem; }
+.welcome p { line-height: 1.6; margin-bottom: 1rem; }
+.welcome__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+.welcome button, .project-banner button {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+.welcome__actions button:first-child { background: #91472f; color: #fffdf8; border-color: #91472f; }
+.project-banner {
+  width: min(100% - 2rem, 1004px);
+  margin: 1rem auto 0;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.project-banner p { flex: 1 1 230px; line-height: 1.5; }
+button:focus-visible { outline: 3px solid #91472f; outline-offset: 3px; }

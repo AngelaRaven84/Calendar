@@ -1,5 +1,17 @@
 # Calendar
 
+Calendar är ett pågående fritidsprojekt där jag utforskar hela kedjan från användargränssnitt till backend och molnlagring. Delar av projektet har även vidareutvecklats inom utbildningen. Det är en prototyp under utveckling.
+
+## Prova kalendern
+
+Välj **Prova kalendern** på startsidan för ett demoläge utan konto. Du kan byta månad och skapa, redigera och radera påhittade händelser. Demodata hålls separat i komponentens minne, skickas inte till API:t och återställs vid omladdning eller när du lämnar demon. Inget sparas i localStorage.
+
+**Logga in med konto** öppnar den befintliga AWS-integrationen. Demon testar inte den integrationen.
+
+**Publiceringsstatus:** Demoläget är tillagt lokalt. S3-versionen behöver uppdateras innan besökare kan använda det där.
+
+## Bakgrund och tidigare verifiering
+
 En svensk kalender byggd med React, Vite och Zustand. Frontend publiceras på Amazon S3 och kommunicerar med Calendar Events API via API Gateway, Lambda och DynamoDB.
 
 **Status 22 september 2026:** Deployment Bootcamp, övning 2 och 3, genomförda. Sara har bekräftat hela CRUD-flödet både lokalt och från S3 efter den senaste publiceringen.

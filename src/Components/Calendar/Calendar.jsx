@@ -17,16 +17,24 @@ import { useCalendarStore } from '../../Store/useCalendarStore';
 import './calendar.css';
 import heroPhoto from '../../assets/hero-photo.png';
 
-function Calendar({ userId, accessToken }) {
+function Calendar({ userId, accessToken, isDemo = false }) {
+	const [demoEvents, setDemoEvents] = useState(() => {
+		const now = new Date();
+		return [
+			{ id: 'demo-1', title: 'Projektstund', startTime: '09:00', endTime: '10:00', date: formatDateKey(new Date(now.getFullYear(), now.getMonth(), 8)) },
+			{ id: 'demo-2', title: 'Fikapaus', startTime: '14:00', endTime: '14:30', date: formatDateKey(new Date(now.getFullYear(), now.getMonth(), 16)) },
+		];
+	});
 	const [currentDate, setCurrentDate] = useState(new Date());
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [editingEvent, setEditingEvent] = useState(null);
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(!isDemo);
 	const [error, setError] = useState('');
 
 	const setEvents = useCalendarStore((state) => state.setEvents);
 	const updateEvent = useCalendarStore((state) => state.updateEvent);
-	const events = useCalendarStore((state) => state.events);
+	const accountEvents = useCalendarStore((state) => state.events);
+	const events = isDemo ? demoEvents : accountEvents;
 	const addEvent = useCalendarStore((state) => state.addEvent);
 	const deleteEvent = useCalendarStore((state) => state.deleteEvent);
 	const today = new Date();
@@ -38,6 +46,8 @@ function Calendar({ userId, accessToken }) {
 	const days = Array.from({ length: daysInMonth }, (_, index) => index + 1);
 
 	useEffect(() => {
+		if (isDemo) return;
+
 		let ignore = false;
 
 		const loadEvents = async () => {
@@ -63,14 +73,23 @@ function Calendar({ userId, accessToken }) {
 		return () => {
 			ignore = true;
 		};
-	}, [userId, accessToken, setEvents]);
+	}, [userId, accessToken, setEvents, isDemo]);
 
 	const handleAddEvent = async (eventData) => {
+		if (isDemo) {
+			const id = crypto.randomUUID();
+			setDemoEvents((events) => [...events, { ...eventData, id }]);
+			return;
+		}
 		const savedEvent = await createEvent(userId, accessToken, eventData);
 		addEvent(savedEvent);
 	};
 
 	const handleUpdateEvent = async (eventId, updates) => {
+		if (isDemo) {
+			setDemoEvents((events) => events.map((event) => event.id === eventId ? { ...event, ...updates } : event));
+			return;
+		}
 		const savedEvent = await updateEventApi(
 			userId,
 			accessToken,
@@ -105,8 +124,12 @@ function Calendar({ userId, accessToken }) {
 		setError('');
 
 		try {
-			await deleteEventApi(userId, accessToken, eventId);
-			deleteEvent(eventId);
+			if (isDemo) {
+				setDemoEvents((events) => events.filter((event) => event.id !== eventId));
+			} else {
+				await deleteEventApi(userId, accessToken, eventId);
+				deleteEvent(eventId);
+			}
 
 			if (editingEvent?.id === eventId) {
 				setEditingEvent(null);

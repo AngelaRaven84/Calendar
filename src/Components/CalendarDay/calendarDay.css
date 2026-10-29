@@ -99,3 +99,6 @@
 		overflow-wrap: anywhere;
 	}
 }
+
+.calendar-day__event { flex-wrap: wrap; }
+.calendar-day--events small { flex: 1 0 100%; min-width: 0; overflow-wrap: anywhere; }
